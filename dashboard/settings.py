@@ -11,7 +11,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'dashboard', 'monitoreo'  
+    'dashboard.apps.DashboardConfig',
+    'monitoreo'  
 ]
 MIDDLEWARE = ['django.middleware.security.SecurityMiddleware','django.contrib.sessions.middleware.SessionMiddleware','django.middleware.common.CommonMiddleware','django.middleware.csrf.CsrfViewMiddleware','django.contrib.auth.middleware.AuthenticationMiddleware','django.contrib.messages.middleware.MessageMiddleware','django.middleware.clickjacking.XFrameOptionsMiddleware']
 ROOT_URLCONF='dashboard.urls'
@@ -34,3 +35,24 @@ TEMPLATES= [
 WSGI_APPLICATION='dashboard.wsgi.application'
 DATABASES={'default':{'ENGINE':'django.db.backends.sqlite3','NAME':BASE_DIR/'data'/'database.sqlite3'}}
 STATIC_URL='static/'
+
+# Zona horaria
+TIME_ZONE = 'America/Hermosillo'
+USE_TZ = True
+USE_I18N = True
+USE_L10N = True
+
+# Configuración de Cache
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
+
+# Configuración MQTT - Mosquitto local
+MQTT_BROKER = 'localhost'  # Mosquitto local
+MQTT_PORT = 1883
+MQTT_TOPIC = 'sonora/#'
+MQTT_USERNAME = None  # Si Mosquitto requiere autenticación, configurar aquí
+MQTT_PASSWORD = None  # Si Mosquitto requiere autenticación, configurar aquí
