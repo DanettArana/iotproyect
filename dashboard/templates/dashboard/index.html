@@ -42,15 +42,37 @@
     <!-- Header -->
     <div class="header text-center">
         <h1> Dashboard IoT – Sensores de Sonora</h1>
-        <p class="mb-0">Temperatura, Humedad y Calidad del Aire en Tiempo Real</p>
+        <p class="mb-0">Temperatura, Humedad, Calidad del Aire e Iluminación en Tiempo Real</p>
     </div>
 
     <div class="container">
 
+        <!-- FILTRO POR MUNICIPIO -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card shadow p-3">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <label for="municipio-filter" class="form-label fw-bold">Filtrar por Municipio:</label>
+                            <select id="municipio-filter" class="form-select">
+                                <option value="">Todos los municipios</option>
+                                {% for municipio in municipios %}
+                                <option value="{{ municipio }}">{{ municipio }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <small class="text-muted">Última actualización: <span id="last-update">--</span></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- TARJETAS -->
         <div class="row mb-4">
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card shadow p-3">
                     <h5 class="text-primary">Temperatura</h5>
                     <div id="temp" class="card-value">--</div>
@@ -58,7 +80,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card shadow p-3">
                     <h5 class="text-success">Humedad</h5>
                     <div id="hum" class="card-value">--</div>
@@ -66,7 +88,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="card shadow p-3">
                     <h5 class="text-danger">Calidad del Aire</h5>
                     <div id="air" class="card-value">--</div>
@@ -74,12 +96,53 @@
                 </div>
             </div>
 
+            <div class="col-md-3">
+                <div class="card shadow p-3">
+                    <h5 class="text-warning">Iluminación</h5>
+                    <div id="ilum" class="card-value">--</div>
+                    <div class="refresh-text">Actualización cada 3 segundos</div>
+                </div>
+            </div>
+
         </div>
 
         <!-- GRÁFICA -->
-        <div class="card shadow p-4">
+        <div class="card shadow p-4 mb-4">
             <h4 class="text-center mb-3">Gráfica de Temperatura en Tiempo Real</h4>
             <canvas id="chart"></canvas>
+        </div>
+
+        <!-- LISTA DE ÚLTIMOS DATOS -->
+        <div class="card shadow p-4">
+            <h4 class="mb-3">Últimos Datos Registrados</h4>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Municipio</th>
+                            <th>Tipo</th>
+                            <th>Valor</th>
+                            <th>Fecha/Hora</th>
+                            <th>Payload</th>
+                        </tr>
+                    </thead>
+                    <tbody id="datos-table">
+                        {% for dato in ultimos_datos %}
+                        <tr>
+                            <td>{{ dato.municipio }}</td>
+                            <td><span class="badge bg-primary">{{ dato.tipo }}</span></td>
+                            <td><strong>{{ dato.valor }}</strong></td>
+                            <td>{{ dato.timestamp|date:"Y-m-d H:i:s" }}</td>
+                            <td><small class="text-muted">{{ dato.raw_payload|truncatechars:50|default:"-" }}</small></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No hay datos disponibles</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
