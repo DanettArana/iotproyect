@@ -50,9 +50,11 @@ CACHES = {
     }
 }
 
-# Configuración MQTT - Mosquitto local
-MQTT_BROKER = 'localhost'  # Mosquitto local
+# Configuración MQTT - Broker público para presentación
+# Usando broker público para que el profesor pueda enviar datos desde su dispositivo
+# Opciones: test.mosquitto.org, broker.hivemq.com, mqtt.eclipseprojects.io
+MQTT_BROKER = 'test.mosquitto.org'  # Broker público - accesible desde cualquier dispositivo
 MQTT_PORT = 1883
 MQTT_TOPIC = 'sonora/#'
-MQTT_USERNAME = None  # Si Mosquitto requiere autenticación, configurar aquí
-MQTT_PASSWORD = None  # Si Mosquitto requiere autenticación, configurar aquí
+MQTT_USERNAME = None  # Sin autenticación en test.mosquitto.org
+MQTT_PASSWORD = None

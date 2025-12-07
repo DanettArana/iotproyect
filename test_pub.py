@@ -13,7 +13,8 @@ import random
 import json
 
 # Configuración
-BROKER = "localhost"  # Cambiar a test.mosquitto.org si no tienes broker local
+# Broker público - el mismo que usa el proyecto para recibir datos
+BROKER = "test.mosquitto.org"  # Broker público - funciona desde cualquier dispositivo
 PORT = 1883
 TOPIC_BASE = "sonora"
 
