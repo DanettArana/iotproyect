@@ -27,3 +27,4 @@ El cliente MQTT ahora guarda claves de caché en ambos formatos:
 ## Archivos modificados
 - `dashboard/mqtt_client.py` - Actualizado para guardar claves en ambos formatos
 "@ -ForegroundColor White
+
