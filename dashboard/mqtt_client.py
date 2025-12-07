@@ -97,9 +97,16 @@ def on_message(client, userdata, msg):
             return
 
         # Guardar en caché de Django (para mostrar en el dashboard)
-        cache_key = f"sensor_{municipio}_{tipo}"
-        cache.set(cache_key, valor, timeout=300)  # 5 minutos de expiración
-        print(f"Guardado en cache: {cache_key} = {valor}")
+        # Clave con municipio (para consultas específicas)
+        cache_key_municipio = f"sensor_{municipio}_{tipo}"
+        cache.set(cache_key_municipio, valor, timeout=300)  # 5 minutos de expiración
+        print(f"Guardado en cache: {cache_key_municipio} = {valor}")
+        
+        # Clave sin municipio (para compatibilidad con api_data legacy)
+        # Solo actualizar si no existe o si este es el valor más reciente
+        cache_key_legacy = f"sensor_{tipo}"
+        cache.set(cache_key_legacy, valor, timeout=300)  # 5 minutos de expiración
+        print(f"Guardado en cache (legacy): {cache_key_legacy} = {valor}")
 
         # Guardar en BD con raw_payload (si el campo existe)
         try:
